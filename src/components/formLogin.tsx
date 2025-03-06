@@ -15,6 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+
 const formSchema = z.object({
   email: z.string().email({
     message: "Formato de email inválido.",
@@ -49,8 +51,11 @@ export default function FormLogin() {
       });
 
       if (!response.ok) {
+        toast.error("Credenciais inválidas");
         throw new Error("Credenciais inválidas");
       }
+
+      toast.success("Login efetuado com sucesso");
 
       const data = await response.json();
       if (data.access_token) {

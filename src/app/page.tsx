@@ -51,7 +51,7 @@ export default function Agenda() {
       <nav className="flex flex-row justify-end gap-2">
         {Array.from({ length: 7 }).map((_, i) => {          
           return (
-            <Avatar>
+            <Avatar key={i}>
               <AvatarImage src="https://avatars.githubusercontent.com/u/82915254?v=4" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
