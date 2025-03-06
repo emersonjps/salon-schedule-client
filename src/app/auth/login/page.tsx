@@ -24,7 +24,7 @@ export default function Login() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center h-screen w-1/3 pl-8 pr-8">
+        <div className="flex flex-col justify-center items-start h-screen w-1/3 pl-8 pr-8">
           <FormRegister />
 
           <div className="mt-10">
