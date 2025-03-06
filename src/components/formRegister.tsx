@@ -66,7 +66,7 @@ export default function FormRegister() {
       // Caso receba um token ou outra confirmação, redirecione conforme necessário
       if (data.access_token) {
         localStorage.setItem("access_token", data.access_token);
-        router.push("/");
+        router.push("/home");
       }
     } catch (err: any) {
       console.error(err);
