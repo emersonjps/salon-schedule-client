@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface Slot {
   startTime: string
@@ -45,7 +46,19 @@ export default function Agenda() {
   }))
 
   return (
-    <section className="mt-8">
+    <section className="mt-8 pl-10 pr-10">
+
+      <nav className="flex flex-row justify-end gap-2">
+        {Array.from({ length: 7 }).map((_, i) => {          
+          return (
+            <Avatar>
+              <AvatarImage src="https://avatars.githubusercontent.com/u/82915254?v=4" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          )
+        })}
+      </nav>
+
       <h2 className="text-3xl font-bold">Agenda para {agenda.date}</h2>
       <p>
         Horário de trabalho: {agenda.workStartTime} - {agenda.workEndTime}

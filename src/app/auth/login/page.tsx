@@ -1,75 +1,37 @@
 "use client";
-import { useRouter } from "next/navigation";
+
+import FormLogin from "@/components/formLogin";
+import FormRegister from "@/components/formRegister";
+import { Button } from "@/components/ui/button";
+import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
-import Link from "next/link";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-
-    const router = useRouter();
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setError("");
-        try {
-            const response = await fetch("http://localhost:3000/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Credenciais inválidas");
-            }
-
-            const data = await response.json();
-            if (data.access_token) {
-                localStorage.setItem("access_token", data.access_token);
-                router.push("/");
-            }
-        } catch (err: any) {
-            setError(err.message || "Erro no login");
-        }
-    };
+    const [register, setRegister] = useState(false);
 
     return (
-        <main className="justify-center items-center flex flex-col h-screen">
-            <h1 className="text-6xl mb-4">Login</h1>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
-                <input
-                    type="email"
-                    value={email}
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="p-2 border border-gray-300 rounded"
-                    required
-                />
-                <input
-                    type="password"
-                    value={password}
-                    placeholder="Senha"
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="p-2 border border-gray-300 rounded"
-                    required
-                />
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-                >
-                    Entrar
-                </button>
-                {error && <span className="text-red-500">{error}</span>}
-            </form>
-            <p className="mt-4">
-                Não possui uma conta?{" "}
-                <Link href="/auth/register" className="text-blue-500 hover:underline">
-                    Registrar-se
-                </Link>
-            </p>
+        <main className="flex flex-row">
+            <div className="bg-slate-700 w-2/3"></div>
+            {!register 
+                ?
+                <div className="flex flex-col justify-center items-center h-screen w-1/3">
+                    <FormLogin />
+
+                    <div className="mt-10">
+                        <Label>Não possui uma conta?</Label>
+                        <Button variant="ghost" onClick={() => setRegister(true)}>Registre-se</Button>
+                    </div>
+                </div>
+                :
+                <div className="flex flex-col justify-center items-center h-screen w-1/3">
+                    <FormRegister />
+
+                    <div className="mt-10">
+                        <Label>Deseja voltar?</Label>
+                        <Button variant="ghost" onClick={() => setRegister(false)}>Login</Button>
+                    </div>
+                </div>
+            }
         </main>
-    );
+    )
 }
