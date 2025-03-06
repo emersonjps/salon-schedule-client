@@ -60,7 +60,7 @@ export default function FormLogin() {
       const data = await response.json();
       if (data.access_token) {
         localStorage.setItem("access_token", data.access_token);
-        router.push("/");
+        router.push("/home");
       }
     } catch (err: any) {
       console.error(err);
