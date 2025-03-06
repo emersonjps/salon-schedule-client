@@ -30,6 +30,21 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "./ui/button"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+
 export function NavUser({
   user,
 }: {
@@ -40,6 +55,14 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+
+  const route = useRouter()
+
+  const handleLogOut = () => {
+    toast.success("Sessão encerrada com sucesso!")
+    localStorage.clear()
+    route.push("/auth/login")
+  }
 
   return (
     <SidebarMenu>
@@ -81,31 +104,47 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+                <DropdownMenuItem>
                 <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
+                Upgrade para PRO
+                </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck />
-                Account
+                Conta
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCard />
-                Billing
+                Carteira
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
-                Notifications
+                Notificações
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+              <Button variant={"outline"} size={"sm"}>
+                <LogOut />
+                Sair
+              </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Deseja fazer sair?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Ao sair seus dados de sessão serão apagados, requerendo login novamente para acessar.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel onClick={handleLogOut}>Sair</AlertDialogCancel>
+                  <AlertDialogAction>Cancelar</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

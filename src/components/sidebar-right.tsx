@@ -25,17 +25,9 @@ const data = {
   },
   calendars: [
     {
-      name: "My Calendars",
-      items: ["Personal", "Work", "Family"],
-    },
-    {
-      name: "Favorites",
-      items: ["Holidays", "Birthdays"],
-    },
-    {
-      name: "Other",
-      items: ["Travel", "Reminders", "Deadlines"],
-    },
+      name: "Filtros",
+      items: ["Agendado", "Disponíveis", "Feriados"],
+    }
   ],
 }
 
@@ -61,7 +53,7 @@ export function SidebarRight({
           <SidebarMenuItem>
             <SidebarMenuButton>
               <Plus />
-              <span>New Calendar</span>
+              <span>Novo Agendamento</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
