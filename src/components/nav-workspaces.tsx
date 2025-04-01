@@ -1,10 +1,10 @@
-import { ChevronRight, MoreHorizontal, Plus } from "lucide-react"
+import { ChevronRight, MoreHorizontal, Plus } from 'lucide-react';
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from '@/components/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -16,7 +16,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar';
 
 export function NavWorkspaces({
   workspaces,
@@ -46,7 +46,7 @@ export function NavWorkspaces({
                 </SidebarMenuButton>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuAction
-                    className="left-2 bg-sidebar-accent text-sidebar-accent-foreground data-[state=open]:rotate-90"
+                    className='left-2 bg-sidebar-accent text-sidebar-accent-foreground data-[state=open]:rotate-90'
                     showOnHover
                   >
                     <ChevronRight />
@@ -73,7 +73,7 @@ export function NavWorkspaces({
             </Collapsible>
           ))}
           <SidebarMenuItem>
-            <SidebarMenuButton className="text-sidebar-foreground/70">
+            <SidebarMenuButton className='text-sidebar-foreground/70'>
               <MoreHorizontal />
               <span>More</span>
             </SidebarMenuButton>
@@ -81,5 +81,5 @@ export function NavWorkspaces({
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  )
+  );
 }

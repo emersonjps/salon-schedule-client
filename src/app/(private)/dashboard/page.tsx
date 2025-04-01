@@ -13,7 +13,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 
-export default function Home() {
+export default function Page() {
   return (
     <SidebarProvider>
       <SidebarLeft />
@@ -26,7 +26,7 @@ export default function Home() {
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbPage className='line-clamp-1'>
-                    Estabelecimento ((NAME)) - Funcionarios ((NAME))
+                    Project Management & Task Tracking
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
