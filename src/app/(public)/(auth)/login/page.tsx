@@ -14,9 +14,9 @@ export default function Login() {
         <div className='flex flex-col justify-center items-start h-screen w-1/3 pl-8 pr-8'>
           <FormLogin />
 
-          <div className='mt-10'>
+          <div className='mt-10 flex items-center justify-center w-full text-center gap-2'>
             <Label>Não possui uma conta?</Label>
-            <Button variant='ghost' onClick={() => router.push('/register')}>
+            <Button variant='ghost' className='text-orange-600 text-md p-0 px-1' onClick={() => router.push('/register')}>
               Registre-se
             </Button>
           </div>

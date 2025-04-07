@@ -11,7 +11,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -29,9 +28,6 @@ const formSchema = z.object({
     .regex(/(?=.*\d)/, {
       message: 'A senha deve incluir pelo menos um número.',
     }),
-  role: z.enum(['ADMIN', 'PROFISSIONAL'], {
-    errorMap: () => ({ message: 'Selecione uma permissão válida.' }),
-  }),
 });
 
 export default function FormRegister() {
@@ -43,26 +39,20 @@ export default function FormRegister() {
       name: '',
       email: '',
       password: '',
-      role: 'ADMIN',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { name, email, password, role } = values;
+    const { name, email, password } = values;
 
     try {
-      const response = await register({ name, email, password, role });
+      const response = await register({ name, email, password, role: 'CLIENT' });
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error('Erro no registro');
       }
 
-      const data = await response.json();
-      // Caso receba um token ou outra confirmação, redirecione conforme necessário
-      if (data.access_token) {
-        localStorage.setItem('access_token', data.access_token);
-        router.push('/home');
-      }
+      router.push('/login');
     } catch (err: any) {
       console.error(err);
     }
@@ -70,15 +60,14 @@ export default function FormRegister() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 w-full'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 w-full flex flex-col gap-4'>
         <FormField
           control={form.control}
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome</FormLabel>
               <FormControl>
-                <Input placeholder='Seu nome' {...field} />
+                <Input className='bg-gray-100 rounded-3xl h-[50px]' placeholder='Seu nome' {...field} />
               </FormControl>
               <FormDescription>Informe seu nome completo.</FormDescription>
               <FormMessage />
@@ -91,9 +80,8 @@ export default function FormRegister() {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder='email@example.com' {...field} />
+                <Input className='bg-gray-100 rounded-3xl h-[50px]' placeholder='email@example.com' {...field} />
               </FormControl>
               <FormDescription>Adicione seu email de usuário.</FormDescription>
               <FormMessage />
@@ -106,9 +94,8 @@ export default function FormRegister() {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Senha</FormLabel>
               <FormControl>
-                <Input type='password' placeholder='Sua senha' {...field} />
+                <Input className='bg-gray-100 rounded-3xl h-[50px]' type='password' placeholder='Sua senha' {...field} />
               </FormControl>
               <FormDescription>Adicione sua senha de usuário.</FormDescription>
               <FormMessage />
@@ -116,27 +103,7 @@ export default function FormRegister() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name='role'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Permissão</FormLabel>
-              <FormControl>
-                <select {...field} className='border p-2 rounded'>
-                  <option value='ADMIN'>Admin</option>
-                  <option value='PROFISSIONAL'>Profissional</option>
-                </select>
-              </FormControl>
-              <FormDescription>
-                Selecione a permissão do usuário.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type='submit'>Registrar</Button>
+        <Button className='bg-orange-500 text-white rounded-3xl h-[50px] w-full' type='submit'>Registrar</Button>
       </form>
     </Form>
   );
