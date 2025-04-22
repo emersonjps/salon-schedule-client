@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { login } from '@/api/auth';
+import Cookies from 'js-cookie';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -53,6 +54,7 @@ export default function FormLogin() {
 
       if (response.access_token) {
         localStorage.setItem('access_token', response.access_token);
+        Cookies.set('authToken', response.access_token, { expires: 7 }); // Expira em 7 dias
         router.push('/home');
       }
     } catch (err: any) {
