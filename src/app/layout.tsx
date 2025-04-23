@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <html lang='pt-BR'>
       <body className={inter.className}>
-        {children}
         <Toaster position='top-center' />
+        {children}
       </body>
     </html>
   );

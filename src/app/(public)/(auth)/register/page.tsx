@@ -1,3 +1,5 @@
+'use client';
+
 import FormRegister from '@/components/formRegister';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';

@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { login } from '@/api/auth';
 import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -30,6 +31,10 @@ const formSchema = z.object({
 
 export default function FormLogin() {
   const router = useRouter();
+
+  useEffect(() => {
+    console.log('HTML do cliente:', document.documentElement.outerHTML);
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
