@@ -60,7 +60,7 @@ export function NavUser({
   const route = useRouter();
 
   const handleLogOut = () => {
-    toast.success('Sessão encerrada com sucesso!');
+    toast.success('Sessão encerrada, até a próxima!');
     localStorage.clear();
     Cookies.remove('authToken');
     route.push('/auth/login');
@@ -141,9 +141,9 @@ export function NavUser({
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Deseja fazer sair?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Ao sair seus dados de sessão serão apagados, requerendo login novamente para acessar.
-                  </AlertDialogDescription>
+                    <AlertDialogDescription>
+                      Ao sair, sua sessão será encerrada e será necessário fazer login novamente para acessar sua conta.
+                    </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel onClick={handleLogOut}>Sair</AlertDialogCancel>
