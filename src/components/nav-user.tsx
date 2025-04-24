@@ -1,4 +1,5 @@
 'use client';
+import Cookies from 'js-cookie';
 
 import {
   BadgeCheck,
@@ -61,6 +62,7 @@ export function NavUser({
   const handleLogOut = () => {
     toast.success('Sessão encerrada com sucesso!');
     localStorage.clear();
+    Cookies.remove('authToken');
     route.push('/auth/login');
   };
 

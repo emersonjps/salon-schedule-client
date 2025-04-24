@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Plus } from 'lucide-react';
 
@@ -18,9 +20,9 @@ import {
 // This is sample data.
 const data = {
   user: {
-    name: 'Emerson',
-    email: 'emerson@gmail.com',
-    avatar: 'http://localhost:9000/bucket-belezou/1741296780247-debugging.png',
+    name: 'Carregando...',
+    email: 'Carregando...',
+    avatar: '',
   },
   calendars: [
     {
@@ -33,6 +35,30 @@ const data = {
 export function SidebarRight({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+
+  const [user, setUser] = React.useState(data.user);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('access_token');
+
+    const decodeToken = (token: string) => {
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      const jsonPayload = JSON.parse(decodedPayload);
+      return jsonPayload;
+    };
+
+    if (token) {
+      const decoded = decodeToken(token);
+      console.log(decoded);
+      setUser({
+        name: decoded.name,
+        email: decoded.email,
+        avatar: decoded.imageUrl,
+      });
+    }
+  }, []);
+
   return (
     <Sidebar
       collapsible="none"
@@ -40,7 +66,7 @@ export function SidebarRight({
       {...props}
     >
       <SidebarHeader className="h-16 border-b border-sidebar-border">
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
