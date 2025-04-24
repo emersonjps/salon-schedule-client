@@ -50,7 +50,6 @@ export function SidebarRight({
 
     if (token) {
       const decoded = decodeToken(token);
-      console.log(decoded);
       setUser({
         name: decoded.name,
         email: decoded.email,
