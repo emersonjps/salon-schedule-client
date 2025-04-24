@@ -47,8 +47,8 @@ export default function FormLogin() {
 
       if (!response) {
         toast.error('Credenciais inválidas');
-        throw new Error('Credenciais inválidas');
       }
+
 
       toast.success('Login efetuado com sucesso');
 
@@ -58,7 +58,13 @@ export default function FormLogin() {
         router.push('/home');
       }
     } catch (err: any) {
-      console.error(err);
+
+      if(err?.response?.data?.message === 'Unauthorized') {
+        toast.error('Credenciais inválidas');
+        return;
+      }
+
+      throw new Error('Erro ao fazer login');
     }
   }
 
