@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 import {
   BadgeCheck,
-  Bell,
+  Settings2,
   ChevronsUpDown,
   CreditCard,
   LogOut,
@@ -125,9 +125,9 @@ export function NavUser({
                 <CreditCard />
                 Carteira
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notificações
+              <DropdownMenuItem onClick={() => route.push('/settings')}>
+                <Settings2 />
+                Ajustes
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
