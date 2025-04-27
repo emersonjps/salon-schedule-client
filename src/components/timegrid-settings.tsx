@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import TimeSlotSettings from './time-slot-settings';
 import { useState } from 'react';
+import API from '@/api/api';
 
 export type TimeSlot = {
     start_time: string;
@@ -118,7 +119,7 @@ export default function TimeGridSettings() {
         );
     };
 
-    const onConfirm = () => {
+    const onConfirm = async () => {
         const timeSlots = dayOfWeekState.reduce((acc, day) => {
             const dayTimeSlots = day.control.timeSlots
             .filter((slot) => slot.start_time.trim() !== '' && slot.end_time.trim() !== '')
@@ -131,6 +132,15 @@ export default function TimeGridSettings() {
         console.log('Time Slots:', timeSlots);
         toast.success('Configurações salvas com sucesso!');
         // Aqui você pode fazer o que quiser com os dados, como enviá-los para uma API
+
+
+        try {
+            const response = await API.post('/schedules', timeSlots);
+            console.log('API Response:', response.data);
+        } catch (error) {
+            console.error('Failed to save schedules:', error);
+            toast.error('Erro ao salvar configurações. Verifique sua conexão e tente novamente.');
+        }
     };
 
     return (
