@@ -11,12 +11,12 @@ import { Button } from './ui/button';
 import {
     ListPlus
 } from 'lucide-react';
-import TimeSlotSettings from './time-slot';
+import TimeSlotSettings from './time-slot-settings';
 import { useState } from 'react';
 
-type TimeSlot = {
-    start_date: string;
-    end_date: string;
+export type TimeSlot = {
+    start_time: string;
+    end_time: string;
 };
 
 type DayOfWeek = {
@@ -31,9 +31,7 @@ const dayOfWeek: DayOfWeek[] = [
     {
         id: 'monday',
         label: 'Segunda-feira',
-        control: { 
-            timeSlots: [] 
-        }
+        control: { timeSlots: [] }
     },
     {
         id: 'tuesday',
@@ -74,16 +72,15 @@ export default function TimeGridSettings() {
     const handleTimeSlotSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = event.target;
         const [dayId, timeSlotIndex, field] = id.split('-');
-        debugger;
         const index = parseInt(timeSlotIndex, 10);
         setDayOfWeekState((prevState) =>
             prevState.map((day) => {
                 if (day.id === dayId) {
                     const updatedTimeSlots = [...day.control.timeSlots];
                     if (field === 'start') {
-                        updatedTimeSlots[index] = { ...updatedTimeSlots[index], start_date: value };
+                        updatedTimeSlots[index] = { ...updatedTimeSlots[index], start_time: value };
                     } else if (field === 'end') {
-                        updatedTimeSlots[index] = { ...updatedTimeSlots[index], end_date: value };
+                        updatedTimeSlots[index] = { ...updatedTimeSlots[index], end_time: value };
                     }
                     return { ...day, control: { ...day.control, timeSlots: updatedTimeSlots } };
                 }
@@ -91,6 +88,49 @@ export default function TimeGridSettings() {
             }
             )
         );
+    };
+
+    const addTimeSlot = (dayId: string) => {
+        setDayOfWeekState((prevState) =>
+            prevState.map((day) =>
+                day.id === dayId
+                    ? {
+                          ...day,
+                          control: {
+                              ...day.control,
+                              timeSlots: [...day.control.timeSlots, { start_time: '', end_time: '' }],
+                          },
+                      }
+                    : day
+            )
+        );
+    };
+
+    const removeTimeSlot = (item: TimeSlot) => {
+        setDayOfWeekState((prevState) =>
+            prevState.map((day) => ({
+                ...day,
+                control: {
+                    ...day.control,
+                    timeSlots: day.control.timeSlots.filter((slot) => slot !== item),
+                },
+            }))
+        );
+    };
+
+    const onConfirm = () => {
+        const timeSlots = dayOfWeekState.reduce((acc, day) => {
+            const dayTimeSlots = day.control.timeSlots
+            .filter((slot) => slot.start_time.trim() !== '' && slot.end_time.trim() !== '')
+            .map((slot) => ({
+                start_date: slot.start_time,
+                end_date: slot.end_time,
+            }));
+            return { ...acc, [day.id]: dayTimeSlots };
+        }, {});
+        console.log('Time Slots:', timeSlots);
+        toast.success('Configurações salvas com sucesso!');
+        // Aqui você pode fazer o que quiser com os dados, como enviá-los para uma API
     };
 
     return (
@@ -128,26 +168,16 @@ export default function TimeGridSettings() {
                                         </p>
                                         <div className='flex flex-col items-center gap-4 mt-4'>
                                             {item.control.timeSlots?.map((timeSlot: any, index: number) => (
-                                                <TimeSlotSettings key={index} item={timeSlot} handleTimeSlotSettings={handleTimeSlotSettings}/>
+                                                <TimeSlotSettings 
+                                                    key={index} 
+                                                    item={timeSlot} 
+                                                    dayId={item.id} 
+                                                    index={index} 
+                                                    handleTimeSlotSettings={handleTimeSlotSettings} 
+                                                    removeTimeSlot={removeTimeSlot} 
+                                                />
                                             ))}
-                                            <Button
-                                                variant='outline'
-                                                className='ml-4 w-full'
-                                                onClick={() => {
-                                                    setDayOfWeekState((prevState) =>
-                                                        prevState.map((day) => day.id === item.id
-                                                                ? {
-                                                                      ...day,
-                                                                      control: {
-                                                                          ...day.control,
-                                                                        timeSlots: [...day.control.timeSlots, { start_date: '', end_date: '' }],
-                                                                      },
-                                                                  }
-                                                                : day
-                                                        )
-                                                    );
-                                                }}
-                                            >
+                                            <Button variant='outline' className='ml-4 w-full' onClick={() => addTimeSlot(item.id)}>
                                                 <ListPlus />
                                                 <span className='text-sm font-medium'>Adicionar intervalo</span>
                                             </Button>
@@ -158,7 +188,7 @@ export default function TimeGridSettings() {
                         </Accordion>
                         </div>
                     </div>  
-                    <Button>Salvar</Button>
+                    <Button onClick={onConfirm}>Salvar</Button>
                 </div>
             </div>
         </>
