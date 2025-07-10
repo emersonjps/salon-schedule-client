@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -29,7 +29,7 @@ const formSchema = z.object({
 });
 
 export default function FormLogin() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,24 +47,23 @@ export default function FormLogin() {
 
       if (!response) {
         toast.error('Credenciais inválidas');
-      }
-
-
-      toast.success('Login efetuado com sucesso');
-
-      if (response.access_token) {
-        localStorage.setItem('access_token', response.access_token);
-        Cookies.set('authToken', response.access_token, { expires: 7 }); // Expira em 7 dias
-        router.push('/home');
-      }
-    } catch (err: any) {
-
-      if(err?.response?.data?.message === 'Unauthorized') {
-        toast.error('Credenciais inválidas');
         return;
       }
 
-      throw new Error('Erro ao fazer login');
+      if (response.access_token) {
+        toast.success('Login efetuado com sucesso');
+        localStorage.setItem('access_token', response.access_token);
+        Cookies.set('authToken', response.access_token, { expires: 7 });
+        navigate('/dashboard');
+      } else {
+        toast.error('Credenciais inválidas');
+      }
+    } catch (err: any) {
+      if (err?.response?.data?.message) {
+        toast.error(`Erro: ${err.response.data.message}`);
+        return;
+      }
+      toast.error('Erro ao fazer login. Tente novamente.');
     }
   }
 
@@ -78,9 +77,8 @@ export default function FormLogin() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder='email' {...field} />
+                <Input placeholder='Digite seu email' {...field} />
               </FormControl>
-              <FormDescription>Adicione seu email de usuário.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -92,14 +90,16 @@ export default function FormLogin() {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <Input type='password' placeholder='senha' {...field} />
+                <Input type='password' placeholder='Digite sua senha' {...field} />
               </FormControl>
-              <FormDescription>Adicione sua senha de usuário.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type='submit'>Login</Button>
+        <Button type='submit'>Entrar</Button>
+        <p className='text-sm text-muted-foreground'>
+          Não tem uma conta? <Link to='/register'>Registre-se</Link>
+        </p>
       </form>
     </Form>
   );

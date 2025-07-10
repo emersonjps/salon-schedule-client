@@ -44,7 +44,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export function NavUser({
@@ -57,13 +57,13 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar();
-  const route = useRouter();
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
     toast.success('Sessão encerrada, até a próxima!');
     localStorage.clear();
     Cookies.remove('authToken');
-    route.push('/auth/login');
+    navigate('/login');
   };
 
   return (
@@ -125,7 +125,7 @@ export function NavUser({
                 <CreditCard />
                 Carteira
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => route.push('/settings')}>
+              <DropdownMenuItem onClick={() => navigate('/settings')}>
                 <Settings2 />
                 Ajustes
               </DropdownMenuItem>

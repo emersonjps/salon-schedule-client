@@ -1,7 +1,49 @@
 {
-  "extends": "next/core-web-vitals",
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "ignorePatterns": [
+    "dist",
+    ".eslintrc.cjs"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "react-refresh"
+  ],
   "rules": {
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"]
+    "react-refresh/only-export-components": [
+      "warn",
+      {
+        "allowConstantExport": true
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": "error",
+    "no-commented-out-code": "error",
+    "no-warning-comments": "error",
+    "spaced-comment": [
+      "error",
+      "never"
+    ],
+    "line-comment-position": [
+      "error",
+      {
+        "position": "above"
+      }
+    ]
   }
 }
