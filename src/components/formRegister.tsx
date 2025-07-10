@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -35,7 +35,7 @@ const formSchema = z.object({
 });
 
 export default function FormRegister() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,10 +58,10 @@ export default function FormRegister() {
       }
 
       const data = await response.json();
-      // Caso receba um token ou outra confirmação, redirecione conforme necessário
+
       if (data.access_token) {
         localStorage.setItem('access_token', data.access_token);
-        router.push('/home');
+        navigate('/dashboard');
       }
     } catch (err: any) {
       console.error(err);
@@ -78,9 +78,8 @@ export default function FormRegister() {
             <FormItem>
               <FormLabel>Nome</FormLabel>
               <FormControl>
-                <Input placeholder='Seu nome' {...field} />
+                <Input placeholder='Seu nome completo' {...field} />
               </FormControl>
-              <FormDescription>Informe seu nome completo.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -95,7 +94,6 @@ export default function FormRegister() {
               <FormControl>
                 <Input placeholder='email@example.com' {...field} />
               </FormControl>
-              <FormDescription>Adicione seu email de usuário.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -110,7 +108,6 @@ export default function FormRegister() {
               <FormControl>
                 <Input type='password' placeholder='Sua senha' {...field} />
               </FormControl>
-              <FormDescription>Adicione sua senha de usuário.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -123,20 +120,20 @@ export default function FormRegister() {
             <FormItem>
               <FormLabel>Permissão</FormLabel>
               <FormControl>
-                <select {...field} className='border p-2 rounded'>
+                <select {...field} className='ml-5 p-2'>
                   <option value='ADMIN'>Admin</option>
                   <option value='PROFISSIONAL'>Profissional</option>
                 </select>
               </FormControl>
-              <FormDescription>
-                Selecione a permissão do usuário.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type='submit'>Registrar</Button>
+        <Button type='submit'>Criar conta</Button>
+        <p className='text-sm text-muted-foreground'>
+          Já tem uma conta? <Link to='/login'>Faça login</Link>
+        </p>
       </form>
     </Form>
   );
