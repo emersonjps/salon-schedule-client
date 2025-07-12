@@ -1,7 +1,7 @@
 import './App.css'
 import { GalleryVerticalEnd } from 'lucide-react'
 import { LoginForm } from './components/login-form'
-import loginBg from './assets/login-bg.jpg'
+import loginBg from './assets/login-background.jpg'
 
 function App() {
 
