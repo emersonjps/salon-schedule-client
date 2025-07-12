@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login } from "@/services/authService";
-
-
+import { toast } from "sonner"
 
 async function handleSubmit(event) {
   event.preventDefault();
@@ -17,6 +16,7 @@ async function handleSubmit(event) {
     // Redirecionar ou fazer algo após o login bem-sucedido
   } catch (error) {
     // Lidar com erros de login
+    toast.error(error.message || "Erro ao fazer login");
   }
 }
 
