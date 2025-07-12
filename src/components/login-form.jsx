@@ -4,8 +4,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login } from "@/services/authService";
 import { toast } from "sonner"
+import { useNavigate } from "react-router-dom";
 
-async function handleSubmit(event) {
+async function handleSubmit(event, navigate) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const email = formData.get("email");
@@ -14,19 +15,21 @@ async function handleSubmit(event) {
   try {
     await login(email, password);
     // Redirecionar ou fazer algo após o login bem-sucedido
+    toast.success("Login realizado com sucesso!");
+    navigate("/home");
   } catch (error) {
     // Lidar com erros de login
     toast.error(error.message || "Erro ao fazer login");
   }
 }
 
-
 export function LoginForm({
   className,
   ...props
 }) {
+  const navigate = useNavigate();
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleSubmit}>
+    <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={(e) => handleSubmit(e, navigate)}>
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Entrar na sua conta</h1>
         <p className="text-muted-foreground text-sm text-balance">
