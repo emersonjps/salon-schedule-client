@@ -14,11 +14,9 @@ async function handleSubmit(event, navigate) {
 
   try {
     await login(email, password);
-    // Redirecionar ou fazer algo após o login bem-sucedido
     toast.success("Login realizado com sucesso!");
     navigate("/home");
   } catch (error) {
-    // Lidar com erros de login
     toast.error(error.message || "Erro ao fazer login");
   }
 }
