@@ -26,11 +26,18 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { useNavigate } from "react-router-dom"
 
 export function NavUser({
     user
 }) {
     const { isMobile } = useSidebar()
+    const navigate = useNavigate();
+
+
+    const handleRedirect = (path) => {
+        navigate(path);
+    }
 
     return (
         <SidebarMenu>
@@ -70,9 +77,9 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleRedirect("/configuration")}>
                                 <Settings2 />
-                                Confingurações
+                                Configurações
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

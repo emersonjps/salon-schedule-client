@@ -13,7 +13,11 @@ async function handleSubmit(event, navigate) {
     const password = formData.get("password");
 
     try {
-        await login(email, password);
+        const response = await login(email, password);
+
+        if (!response) throw new Error("Login inválido");
+        localStorage.setItem("token", response.access_token);
+
         toast.success("Login realizado com sucesso!");
         navigate("/home");
     } catch (error) {
